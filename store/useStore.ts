@@ -65,7 +65,7 @@ export const useAuthStore = create<AuthStore>()(
         set({ user: null, isLoggedIn: false });
       },
       signup: async (email: string, name: string, password: string) => {
-        // Simulate API call
+        // Simulate API call d
         await new Promise((resolve) => setTimeout(resolve, 500));
         const mockUser: User = {
           id: Math.random().toString(36).substr(2, 9),
