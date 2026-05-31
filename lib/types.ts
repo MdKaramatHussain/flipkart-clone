@@ -28,6 +28,7 @@ export interface Product {
   name: string;
   description: string;
   category: string;
+  categoryId: string;
   subcategory: string;
   brand: string;
   price: number;
@@ -36,12 +37,14 @@ export interface Product {
   rating: number;
   reviews: number;
   stock: number;
-  image: string[];
+  image: string;
+  images: string[];
   thumbnail?: string;
   specs: Record<string, string>;
   warranty: string;
   delivery: string;
-  
+  createdAt: Date;
+
   // Flipkart-inspired fields
   seller: {
     id: string;
@@ -49,6 +52,8 @@ export interface Product {
     verified: boolean;
     rating?: number;
   };
+  seoDescription?: string;
+  seoTitle?: string;
   isFeatured?: boolean;
   isTrending?: boolean;
   isNewArrival?: boolean;
@@ -58,7 +63,24 @@ export interface Product {
   size?: string;
   sku?: string;
 }
-
+export type RawProduct = Omit<
+  Product,
+  | 'categoryId'
+  | 'image'
+  | 'thumbnail'
+  | 'createdAt'
+  | 'seller'
+  | 'seoDescription'
+  | 'seoTitle'
+  | 'isFeatured'
+  | 'isTrending'
+  | 'isNewArrival'
+  | 'fastDelivery'
+  | 'badges'
+  | 'color'
+  | 'size'
+  | 'sku'
+>;
 export interface CartItem {
   id: string;
   productId: string;

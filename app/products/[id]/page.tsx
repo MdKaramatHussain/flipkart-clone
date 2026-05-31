@@ -97,16 +97,16 @@ export default function ProductDetail({ params, }: { params: Promise<{ id: strin
           <div>
             <div className="bg-gray-100 rounded-lg overflow-hidden mb-4">
               <img
-                src={product.image[selectedImage]}
+                src={product.images[selectedImage]}
                 alt={product.name}
                 className="w-full h-96 object-cover"
               />
             </div>
 
             {/* Thumbnail image */}
-            {product.image.length > 1 && (
+            {product.images?.length > 1 && (
               <div className="flex gap-2 overflow-x-auto pb-2">
-                {product.image.map((image, idx) => (
+                {product.images?.map((image, idx) => (
                   <button
                     key={idx}
                     onClick={() => setSelectedImage(idx)}

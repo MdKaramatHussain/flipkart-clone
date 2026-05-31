@@ -1,4 +1,4 @@
-import type { Product, Coupon, Address } from './types';
+import type { Product, Coupon, Address, RawProduct } from './types';
 
 // Product Categories
 export const CATEGORIES = [
@@ -24,7 +24,7 @@ export const SUBCATEGORIES: Record<string, string[]> = {
 };
 
 // 100+ Products
-export const PRODUCTS: Product[] = [
+export const RAW_PRODUCTS: RawProduct[] = [
   // Electronics - Mobiles
   {
     id: 'prod_001',
@@ -39,7 +39,7 @@ export const PRODUCTS: Product[] = [
     rating: 4.8,
     reviews: 5234,
     stock: 45,
-    image: ['/product-1.jpg', '/product-2.jpg'],
+    images: ['/product-1.jpg', '/product-2.jpg'],
     specs: {
       'Display': '6.7" Super Retina XDR',
       'Camera': '48MP Main + 12MP Ultra Wide',
@@ -62,7 +62,7 @@ export const PRODUCTS: Product[] = [
     rating: 4.7,
     reviews: 4156,
     stock: 62,
-    image: ['/product-2.jpg', '/product-3.jpg'],
+    images: ['/product-2.jpg', '/product-3.jpg'],
     specs: {
       'Display': '6.8" Dynamic AMOLED',
       'Camera': '50MP Main + 200MP Telephoto',
@@ -85,7 +85,7 @@ export const PRODUCTS: Product[] = [
     rating: 4.6,
     reviews: 2834,
     stock: 38,
-    image: ['/product-3.jpg', '/product-4.jpg'],
+    images: ['/product-3.jpg', '/product-4.jpg'],
     specs: {
       'Display': '6.7" QHD+ OLED',
       'Camera': '50MP Main + 48MP Telephoto',
@@ -108,7 +108,7 @@ export const PRODUCTS: Product[] = [
     rating: 4.5,
     reviews: 3421,
     stock: 85,
-    image: ['/product-4.jpg', '/product-5.jpg'],
+    images: ['/product-4.jpg', '/product-5.jpg'],
     specs: {
       'Display': '6.7" AMOLED',
       'Camera': '50MP Main + 48MP Telephoto',
@@ -131,7 +131,7 @@ export const PRODUCTS: Product[] = [
     rating: 4.4,
     reviews: 2156,
     stock: 120,
-    image: ['/product-5.jpg', '/product-1.jpg'],
+    images: ['/product-5.jpg', '/product-1.jpg'],
     specs: {
       'Display': '6.73" AMOLED',
       'Camera': '50MP Main + 50MP Ultra Wide',
@@ -156,7 +156,7 @@ export const PRODUCTS: Product[] = [
     rating: 4.9,
     reviews: 1834,
     stock: 22,
-    image: ['/product-1.jpg', '/product-2.jpg'],
+    images: ['/product-1.jpg', '/product-2.jpg'],
     specs: {
       'Display': '16" Liquid Retina XDR',
       'Processor': 'Apple M3 Max',
@@ -179,7 +179,7 @@ export const PRODUCTS: Product[] = [
     rating: 4.7,
     reviews: 1256,
     stock: 35,
-    image: ['/product-2.jpg', '/product-3.jpg'],
+    images: ['/product-2.jpg', '/product-3.jpg'],
     specs: {
       'Display': '15.6" OLED',
       'Processor': 'Intel Core i7',
@@ -202,7 +202,7 @@ export const PRODUCTS: Product[] = [
     rating: 4.3,
     reviews: 892,
     stock: 67,
-    image: ['/product-3.jpg', '/product-4.jpg'],
+    images: ['/product-3.jpg', '/product-4.jpg'],
     specs: {
       'Display': '15.6" FHD',
       'Processor': 'Intel Core i5',
@@ -225,7 +225,7 @@ export const PRODUCTS: Product[] = [
     rating: 4.2,
     reviews: 645,
     stock: 78,
-    image: ['/product-4.jpg', '/product-5.jpg'],
+    images: ['/product-4.jpg', '/product-5.jpg'],
     specs: {
       'Display': '15.6" FHD',
       'Processor': 'AMD Ryzen 5',
@@ -248,7 +248,7 @@ export const PRODUCTS: Product[] = [
     rating: 4.4,
     reviews: 521,
     stock: 45,
-    image: ['/product-5.jpg', '/product-1.jpg'],
+    images: ['/product-5.jpg', '/product-1.jpg'],
     specs: {
       'Display': '15.6" IPS FHD',
       'Processor': 'Intel Core i7',
@@ -273,7 +273,7 @@ export const PRODUCTS: Product[] = [
     rating: 4.8,
     reviews: 3456,
     stock: 142,
-    image: ['/product-1.jpg', '/product-2.jpg'],
+    images: ['/product-1.jpg', '/product-2.jpg'],
     specs: {
       'Noise Cancellation': 'Active',
       'Connectivity': 'Bluetooth 5.3',
@@ -296,7 +296,7 @@ export const PRODUCTS: Product[] = [
     rating: 4.7,
     reviews: 2134,
     stock: 89,
-    image: ['/product-2.jpg', '/product-3.jpg'],
+    images: ['/product-2.jpg', '/product-3.jpg'],
     specs: {
       'Noise Cancellation': 'Active',
       'Connectivity': 'Bluetooth 5.3',
@@ -319,7 +319,7 @@ export const PRODUCTS: Product[] = [
     rating: 4.2,
     reviews: 1823,
     stock: 267,
-    image: ['/product-3.jpg', '/product-4.jpg'],
+    images: ['/product-3.jpg', '/product-4.jpg'],
     specs: {
       'Noise Cancellation': 'Active',
       'Connectivity': 'Bluetooth 5.0',
@@ -342,7 +342,7 @@ export const PRODUCTS: Product[] = [
     rating: 4.6,
     reviews: 945,
     stock: 123,
-    image: ['/product-4.jpg', '/product-5.jpg'],
+    images: ['/product-4.jpg', '/product-5.jpg'],
     specs: {
       'Noise Cancellation': 'Active',
       'Connectivity': 'Bluetooth 5.2',
@@ -365,7 +365,7 @@ export const PRODUCTS: Product[] = [
     rating: 4.5,
     reviews: 1267,
     stock: 78,
-    image: ['/product-5.jpg', '/product-1.jpg'],
+    images: ['/product-5.jpg', '/product-1.jpg'],
     specs: {
       'Noise Cancellation': 'Active',
       'Connectivity': 'Bluetooth 5.3',
@@ -390,7 +390,7 @@ export const PRODUCTS: Product[] = [
     rating: 4.6,
     reviews: 4523,
     stock: 234,
-    image: ['/product-1.jpg', '/product-2.jpg'],
+    images: ['/product-1.jpg', '/product-2.jpg'],
     specs: {
       'Material': 'Leather + Synthetic',
       'Size': '6-13',
@@ -412,7 +412,7 @@ export const PRODUCTS: Product[] = [
     rating: 4.4,
     reviews: 3456,
     stock: 456,
-    image: ['/product-2.jpg', '/product-3.jpg'],
+    images: ['/product-2.jpg', '/product-3.jpg'],
     specs: {
       'Material': 'Canvas + Leather',
       'Size': '5-14',
@@ -434,7 +434,7 @@ export const PRODUCTS: Product[] = [
     rating: 4.3,
     reviews: 2345,
     stock: 345,
-    image: ['/product-3.jpg', '/product-4.jpg'],
+    images: ['/product-3.jpg', '/product-4.jpg'],
     specs: {
       'Material': 'Synthetic + Mesh',
       'Size': '6-12',
@@ -456,7 +456,7 @@ export const PRODUCTS: Product[] = [
     rating: 4.2,
     reviews: 2156,
     stock: 567,
-    image: ['/product-4.jpg', '/product-5.jpg'],
+    images: ['/product-4.jpg', '/product-5.jpg'],
     specs: {
       'Display': '1.4" AMOLED',
       'Battery': '7 days',
@@ -478,7 +478,7 @@ export const PRODUCTS: Product[] = [
     rating: 4.1,
     reviews: 1834,
     stock: 789,
-    image: ['/product-5.jpg', '/product-1.jpg'],
+    images: ['/product-5.jpg', '/product-1.jpg'],
     specs: {
       'Display': 'Analog',
       'Material': 'Metal + Leather',
@@ -502,7 +502,7 @@ export const PRODUCTS: Product[] = [
     rating: 4.3,
     reviews: 567,
     stock: 45,
-    image: ['/product-1.jpg', '/product-2.jpg'],
+    images: ['/product-1.jpg', '/product-2.jpg'],
     specs: {
       'Material': 'Fabric',
       'Dimensions': '200x90x70 cm',
@@ -524,7 +524,7 @@ export const PRODUCTS: Product[] = [
     rating: 4.2,
     reviews: 423,
     stock: 67,
-    image: ['/product-2.jpg', '/product-3.jpg'],
+    images: ['/product-2.jpg', '/product-3.jpg'],
     specs: {
       'Material': 'Engineered Wood',
       'Dimensions': '170x220x50 cm',
@@ -546,7 +546,7 @@ export const PRODUCTS: Product[] = [
     rating: 4.4,
     reviews: 2134,
     stock: 1234,
-    image: ['/product-3.jpg', '/product-4.jpg'],
+    images: ['/product-3.jpg', '/product-4.jpg'],
     specs: {
       'Material': 'TPE',
       'Thickness': '6mm',
@@ -568,7 +568,7 @@ export const PRODUCTS: Product[] = [
     rating: 4.6,
     reviews: 3456,
     stock: 2345,
-    image: ['/product-4.jpg', '/product-5.jpg'],
+    images: ['/product-4.jpg', '/product-5.jpg'],
     specs: {
       'Power': '9W',
       'Color': 'RGB',
@@ -590,7 +590,7 @@ export const PRODUCTS: Product[] = [
     rating: 4.5,
     reviews: 2456,
     stock: 890,
-    image: ['/product-5.jpg', '/product-1.jpg'],
+    images: ['/product-5.jpg', '/product-1.jpg'],
     specs: {
       'Capacity': '5L',
       'Material': 'Stainless Steel',
@@ -614,7 +614,7 @@ export const PRODUCTS: Product[] = [
     rating: 4.9,
     reviews: 5678,
     stock: 4567,
-    image: ['/product-1.jpg', '/product-2.jpg'],
+    images: ['/product-1.jpg', '/product-2.jpg'],
     specs: {
       'Author': 'James Clear',
       'Pages': '320',
@@ -636,7 +636,7 @@ export const PRODUCTS: Product[] = [
     rating: 4.7,
     reviews: 3456,
     stock: 2345,
-    image: ['/product-2.jpg', '/product-3.jpg'],
+    images: ['/product-2.jpg', '/product-3.jpg'],
     specs: {
       'Author': 'Alex Michaelides',
       'Pages': '368',
@@ -658,7 +658,7 @@ export const PRODUCTS: Product[] = [
     rating: 4.8,
     reviews: 2123,
     stock: 3456,
-    image: ['/product-3.jpg', '/product-4.jpg'],
+    images: ['/product-3.jpg', '/product-4.jpg'],
     specs: {
       'Author': 'Tui T. Sutherland',
       'Pages': '368',
@@ -680,7 +680,7 @@ export const PRODUCTS: Product[] = [
     rating: 4.8,
     reviews: 4567,
     stock: 2123,
-    image: ['/product-4.jpg', '/product-5.jpg'],
+    images: ['/product-4.jpg', '/product-5.jpg'],
     specs: {
       'Author': 'Yuval Noah Harari',
       'Pages': '443',
@@ -702,7 +702,7 @@ export const PRODUCTS: Product[] = [
     rating: 4.9,
     reviews: 6234,
     stock: 1234,
-    image: ['/product-5.jpg', '/product-1.jpg'],
+    images: ['/product-5.jpg', '/product-1.jpg'],
     specs: {
       'Author': 'J.K. Rowling',
       'Books': '7',
@@ -726,7 +726,7 @@ export const PRODUCTS: Product[] = [
     rating: 4.3,
     reviews: 1234,
     stock: 4567,
-    image: ['/product-1.jpg', '/product-2.jpg'],
+    images: ['/product-1.jpg', '/product-2.jpg'],
     specs: {
       'SPF': '50',
       'Size': '50g',
@@ -748,7 +748,7 @@ export const PRODUCTS: Product[] = [
     rating: 4.4,
     reviews: 2345,
     stock: 3456,
-    image: ['/product-2.jpg', '/product-3.jpg'],
+    images: ['/product-2.jpg', '/product-3.jpg'],
     specs: {
       'Finish': 'Volumizing',
       'Size': '9.2ml',
@@ -770,7 +770,7 @@ export const PRODUCTS: Product[] = [
     rating: 4.5,
     reviews: 1890,
     stock: 2345,
-    image: ['/product-3.jpg', '/product-4.jpg'],
+    images: ['/product-3.jpg', '/product-4.jpg'],
     specs: {
       'Size': '250ml',
       'Type': 'Shampoo',
@@ -792,7 +792,7 @@ export const PRODUCTS: Product[] = [
     rating: 4.6,
     reviews: 2456,
     stock: 3123,
-    image: ['/product-4.jpg', '/product-5.jpg'],
+    images: ['/product-4.jpg', '/product-5.jpg'],
     specs: {
       'Size': '200g',
       'Type': 'Face Wash',
@@ -814,7 +814,7 @@ export const PRODUCTS: Product[] = [
     rating: 4.7,
     reviews: 1567,
     stock: 789,
-    image: ['/product-5.jpg', '/product-1.jpg'],
+    images: ['/product-5.jpg', '/product-1.jpg'],
     specs: {
       'Size': '3g',
       'Finish': 'Satin',
@@ -838,7 +838,7 @@ export const PRODUCTS: Product[] = [
     rating: 4.5,
     reviews: 1234,
     stock: 890,
-    image: ['/product-1.jpg', '/product-2.jpg'],
+    images: ['/product-1.jpg', '/product-2.jpg'],
     specs: {
       'Weight': '10kg',
       'Material': 'Iron',
@@ -860,7 +860,7 @@ export const PRODUCTS: Product[] = [
     rating: 4.4,
     reviews: 890,
     stock: 1234,
-    image: ['/product-2.jpg', '/product-3.jpg'],
+    images: ['/product-2.jpg', '/product-3.jpg'],
     specs: {
       'Material': 'EVA Foam',
       'Quantity': '3',
@@ -882,7 +882,7 @@ export const PRODUCTS: Product[] = [
     rating: 4.6,
     reviews: 567,
     stock: 234,
-    image: ['/product-3.jpg', '/product-4.jpg'],
+    images: ['/product-3.jpg', '/product-4.jpg'],
     specs: {
       'Material': 'English Willow',
       'Weight': '1.2kg',
@@ -904,7 +904,7 @@ export const PRODUCTS: Product[] = [
     rating: 4.5,
     reviews: 456,
     stock: 345,
-    image: ['/product-4.jpg', '/product-5.jpg'],
+    images: ['/product-4.jpg', '/product-5.jpg'],
     specs: {
       'Material': 'Carbon Composite',
       'Weight': '80g',
@@ -926,7 +926,7 @@ export const PRODUCTS: Product[] = [
     rating: 4.4,
     reviews: 678,
     stock: 567,
-    image: ['/product-5.jpg', '/product-1.jpg'],
+    images: ['/product-5.jpg', '/product-1.jpg'],
     specs: {
       'Lens': 'Anti-fog',
       'Frame': 'Silicone',
@@ -950,7 +950,7 @@ export const PRODUCTS: Product[] = [
     rating: 4.7,
     reviews: 2345,
     stock: 456,
-    image: ['/product-1.jpg', '/product-2.jpg'],
+    images: ['/product-1.jpg', '/product-2.jpg'],
     specs: {
       'Pieces': '967',
       'Age': '5+',
@@ -972,7 +972,7 @@ export const PRODUCTS: Product[] = [
     rating: 4.5,
     reviews: 1234,
     stock: 890,
-    image: ['/product-2.jpg', '/product-3.jpg'],
+    images: ['/product-2.jpg', '/product-3.jpg'],
     specs: {
       'Cars': '10',
       'Age': '3+',
@@ -994,7 +994,7 @@ export const PRODUCTS: Product[] = [
     rating: 4.6,
     reviews: 678,
     stock: 345,
-    image: ['/product-3.jpg', '/product-4.jpg'],
+    images: ['/product-3.jpg', '/product-4.jpg'],
     specs: {
       'Players': '2-4',
       'Age': '8+',
@@ -1016,7 +1016,7 @@ export const PRODUCTS: Product[] = [
     rating: 4.4,
     reviews: 567,
     stock: 567,
-    image: ['/product-4.jpg', '/product-5.jpg'],
+    images: ['/product-4.jpg', '/product-5.jpg'],
     specs: {
       'Height': '29cm',
       'Age': '3+',
@@ -1038,7 +1038,7 @@ export const PRODUCTS: Product[] = [
     rating: 4.7,
     reviews: 1234,
     stock: 2345,
-    image: ['/product-5.jpg', '/product-1.jpg'],
+    images: ['/product-5.jpg', '/product-1.jpg'],
     specs: {
       'Size': '5.7cm',
       'Age': '8+',
@@ -1062,7 +1062,7 @@ export const PRODUCTS: Product[] = [
     rating: 4.5,
     reviews: 2345,
     stock: 5678,
-    image: ['/product-1.jpg', '/product-2.jpg'],
+    images: ['/product-1.jpg', '/product-2.jpg'],
     specs: {
       'Type': 'Basmati',
       'Weight': '5kg',
@@ -1084,7 +1084,7 @@ export const PRODUCTS: Product[] = [
     rating: 4.6,
     reviews: 1234,
     stock: 890,
-    image: ['/product-2.jpg', '/product-3.jpg'],
+    images: ['/product-2.jpg', '/product-3.jpg'],
     specs: {
       'Type': 'Organic',
       'Weight': '500g',
@@ -1106,7 +1106,7 @@ export const PRODUCTS: Product[] = [
     rating: 4.4,
     reviews: 890,
     stock: 3456,
-    image: ['/product-3.jpg', '/product-4.jpg'],
+    images: ['/product-3.jpg', '/product-4.jpg'],
     specs: {
       'Type': 'Full Fat',
       'Weight': '400g',
@@ -1128,7 +1128,7 @@ export const PRODUCTS: Product[] = [
     rating: 4.7,
     reviews: 678,
     stock: 456,
-    image: ['/product-4.jpg', '/product-5.jpg'],
+    images: ['/product-4.jpg', '/product-5.jpg'],
     specs: {
       'Type': 'Extra Virgin',
       'Size': '500ml',
@@ -1150,7 +1150,7 @@ export const PRODUCTS: Product[] = [
     rating: 4.3,
     reviews: 1234,
     stock: 9876,
-    image: ['/product-5.jpg', '/product-1.jpg'],
+    images: ['/product-5.jpg', '/product-1.jpg'],
     specs: {
       'Size': '1L',
       'Type': 'Soft Drink',
@@ -1160,6 +1160,56 @@ export const PRODUCTS: Product[] = [
     delivery: 'Same Day',
   },
 ];
+export const PRODUCTS: Product[] = RAW_PRODUCTS.map((product, index) => ({
+  ...product,
+
+  categoryId: product.category
+    .toLowerCase()
+    .replace(/\s*&\s*/g, '-')
+    .replace(/\s+/g, '-'),
+
+  image: product.images[0],
+
+  thumbnail: product.images[0],
+
+  createdAt: new Date(),
+
+  seller: {
+    id: `seller_${String((index % 5) + 1).padStart(3, '0')}`,
+    name: 'Visionary Store',
+    verified: true,
+    rating: 4.5,
+  },
+
+  seoTitle: product.name,
+  seoDescription: product.description,
+
+  isFeatured: product.rating >= 4.7,
+
+  isTrending:
+    product.reviews > 3000,
+
+  isNewArrival: false,
+
+  fastDelivery: [
+    'Same Day',
+    'Next Day',
+  ].includes(product.delivery),
+
+  badges: [
+    ...(product.rating >= 4.7
+      ? ['Top Rated']
+      : []),
+    ...(product.discount >= 40
+      ? ['Great Deal']
+      : []),
+  ],
+
+  color: product.specs.Color || '',
+  size: product.specs.Size || '',
+
+  sku: `SKU-${product.id.toUpperCase()}`,
+}));
 
 // Coupons
 export const COUPONS: Coupon[] = [
