@@ -45,6 +45,7 @@ export abstract class BaseScraper {
 
     console.log("STATUS:", response.status);
     console.log("BODY:", html.substring(0, 2000));
+    console.log("HEADERS:", Object.fromEntries(response.headers.entries()));
 
     if (!response.ok) {
       throw new Error(
