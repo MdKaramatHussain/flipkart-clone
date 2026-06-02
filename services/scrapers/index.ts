@@ -40,11 +40,12 @@ export abstract class BaseScraper {
         'Accept-Language': 'en-US,en;q=0.9',
       },
     });
-
+    console.log("FINAL URL:", response.url);
     const html = await response.text();
 
+    console.log("FINAL URL:", response.url);
     console.log("STATUS:", response.status);
-    console.log("BODY:", html.substring(0, 2000));
+    console.log("STATUS TEXT:", response.statusText);
     console.log("HEADERS:", Object.fromEntries(response.headers.entries()));
 
     if (!response.ok) {
