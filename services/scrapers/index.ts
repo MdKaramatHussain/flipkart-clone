@@ -15,20 +15,44 @@ export abstract class BaseScraper {
   /**
    * Fetch and parse HTML from URL
    */
+  // protected async fetchHTML(url: string): Promise<string> {
+  //   // Server-side fetch using Node.js fetch
+  //   const response = await fetch(url, {
+  //     headers: {
+  //       'User-Agent':
+  //         'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
+  //     },
+  //   });
+
+  //   if (!response.ok) {
+  //     throw new Error(`Failed to fetch URL. Status: ${response.status} ${response.statusText}`);
+  //   }
+
+  //   return response.text();
+  // }
   protected async fetchHTML(url: string): Promise<string> {
-    // Server-side fetch using Node.js fetch
     const response = await fetch(url, {
       headers: {
         'User-Agent':
-          'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
+          'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36',
+        'Accept':
+          'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+        'Accept-Language': 'en-US,en;q=0.9',
       },
     });
 
+    const html = await response.text();
+
+    console.log("STATUS:", response.status);
+    console.log("BODY:", html.substring(0, 2000));
+
     if (!response.ok) {
-      throw new Error(`Failed to fetch URL. Status: ${response.status} ${response.statusText}`);
+      throw new Error(
+        `Failed to fetch URL. Status: ${response.status} ${response.statusText}`
+      );
     }
 
-    return response.text();
+    return html;
   }
 
   /**
