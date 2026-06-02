@@ -25,7 +25,7 @@ export abstract class BaseScraper {
     });
 
     if (!response.ok) {
-      throw new Error(`Failed to fetch URL: ${response.statusText}`);
+      throw new Error(`Failed to fetch URL. Status: ${response.status} ${response.statusText}`);
     }
 
     return response.text();
