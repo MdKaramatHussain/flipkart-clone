@@ -50,8 +50,16 @@ export function ProductImportComponent({ onImportSuccess }: ProductImportCompone
     try {
       const response = await fetch('https://scrapping-backend-0smv.onrender.com/api/scrape', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ url, options: { headless: true, 'x-api-key': 'dev-key' } }),
+        headers: {
+          'Content-Type': 'application/json',
+          'x-api-key': 'dev-key',
+        },
+        body: JSON.stringify({
+          url,
+          options: {
+            headless: true,
+          },
+        }),
       });
 
       const data = await response.json();
