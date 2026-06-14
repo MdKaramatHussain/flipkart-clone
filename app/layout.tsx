@@ -24,19 +24,22 @@ const robotoMono = Roboto_Mono({
 export const metadata: Metadata = {
   title: 'Flipkart - Online Shopping',
   description: 'Shop online for electronics, fashion, home & living, and more on Flipkart',
-  generator: 'v0.app',
+  generator: 'Karamat',
   icons: {
     icon: [
       {
-        url: '/icon-light-32x32.png',
+        url: '/apple-icon.png',
+        // url: '/icon-light-32x32.png',
         media: '(prefers-color-scheme: light)',
       },
       {
-        url: '/icon-dark-32x32.png',
+        url: '/apple-icon.png',
+        // url: '/icon-dark-32x32.png',
         media: '(prefers-color-scheme: dark)',
       },
       {
-        url: '/icon.svg',
+        url: '/apple-icon.png',
+        // url: '/icon.svg',
         type: 'image/svg+xml',
       },
     ],

@@ -111,8 +111,6 @@ export default function AdminProductsPage() {
       createdAt: new Date(),
     };
     setProducts([...products, newProduct]);
-    console.log(products)
-    console.log(newProduct)
 
     // Switch to products tab to show the new product
     setActiveTab('products');

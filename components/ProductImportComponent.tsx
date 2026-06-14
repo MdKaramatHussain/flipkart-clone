@@ -48,10 +48,10 @@ export function ProductImportComponent({ onImportSuccess }: ProductImportCompone
 
     setLoading(true);
     try {
-      const response = await fetch('/api/import', {
+      const response = await fetch('https://scrapping-backend-0smv.onrender.com/api/scrape', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ url, action: 'preview' }),
+        body: JSON.stringify({ url, options: { headless: true, 'x-api-key': 'dev-key' } }),
       });
 
       const data = await response.json();
@@ -86,13 +86,13 @@ export function ProductImportComponent({ onImportSuccess }: ProductImportCompone
           <div>
             <h3 className="text-lg font-semibold mb-2">Quick Product Import</h3>
             <p className="text-sm text-muted-foreground">
-              Paste a product URL from Amazon, Flipkart, Myntra, or any ecommerce site
+              Paste a product URL from Flipkart site
             </p>
           </div>
 
           <div className="flex gap-2">
             <Input
-              placeholder="https://www.amazon.com/dp/B0... or https://www.flipkart.com/..."
+              placeholder="https://www.flipkart.com/..."
               value={url}
               onChange={(e) => setUrl(e.target.value)}
               onKeyPress={(e) => e.key === 'Enter' && handleImport()}
