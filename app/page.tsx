@@ -1,23 +1,25 @@
 'use client';
 
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
 import CategoryNavigation from '@/components/CategoryNavigation';
 import { HeroBannerCarousel, PromoBanner } from '@/components/HeroBannerCarousel';
 import { ProductSlider } from '@/components/ProductSlider';
 import { ProductCard } from '@/components/ProductCard';
-import { productsApi } from '@/lib/api-service';
 import { COLORS } from '@/constants/colors';
 import type { Product } from '@/lib/types';
 import { Zap, Package, Shield, Truck } from 'lucide-react';
+import {
+  useFeaturedProducts,
+  useTrendingProducts,
+  useProductsByCategory,
+} from '@/hooks/useProducts';
 
 export default function Home() {
-  const [featuredProducts, setFeaturedProducts] = useState<Product[]>([]);
-  const [trendingProducts, setTrendingProducts] = useState<Product[]>([]);
-  const [bestDealsProducts, setBestDealsProducts] = useState<Product[]>([]);
-  const [loading, setLoading] = useState(true);
+  // Get products from global store
+  const featuredProducts = useFeaturedProducts();
+  const trendingProducts = useTrendingProducts();
 
   // Mock banner data
   const heroBanners = [
@@ -59,35 +61,6 @@ export default function Home() {
     { name: 'Toys', icon: '🎮', href: '/search?category=toys' },
   ];
 
-  useEffect(() => {
-    const fetchProducts = async () => {
-      setLoading(true);
-      try {
-        const [featured, trending, deals] = await Promise.all([
-          productsApi.getFeatured(12),
-          productsApi.getTrending(12),
-          productsApi.getFeatured(10), // Mock for deals
-        ]);
-
-        if (featured.success) {
-          setFeaturedProducts(featured.data || []);
-        }
-        if (trending.success) {
-          setTrendingProducts(trending.data || []);
-        }
-        if (deals.success) {
-          setBestDealsProducts(deals.data || []);
-        }
-      } catch (error) {
-        console.error('Error fetching products:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchProducts();
-  }, []);
-
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col">
       <Header cartCount={0} wishlistCount={0} />
@@ -120,7 +93,7 @@ export default function Home() {
         </section>
 
         {/* Best Deals Section */}
-        {bestDealsProducts.length > 0 && (
+        {featuredProducts.length > 0 && (
           <section className="bg-white border-b border-gray-200 py-8">
             <div className="max-w-full px-4 sm:px-6 lg:px-8">
               <div className="flex items-center gap-2 mb-6">
@@ -130,7 +103,7 @@ export default function Home() {
                 </h2>
               </div>
               <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
-                {bestDealsProducts.slice(0, 5).map((product) => (
+                {featuredProducts.slice(0, 5).map((product) => (
                   <ProductCard key={product.id} product={product} variant="compact" />
                 ))}
               </div>

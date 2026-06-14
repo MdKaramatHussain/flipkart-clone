@@ -2,23 +2,26 @@
 
 import React from 'react';
 import { Search, ShoppingCart, Heart, User, MapPin, SlidersHorizontal } from 'lucide-react';
+import { useFilterProducts, useProducts } from '@/hooks/useProducts';
 
 export default function ProductsPage() {
   const [scrolled, setScrolled] = React.useState(false);
   const [sortBy, setSortBy] = React.useState('relevance');
-  const [selectedFilters, setSelectedFilters] = React.useState({
-    category: null,
-    priceRange: null,
-    rating: null,
-    brand: null,
-  });
+  const [selectedCategory, setSelectedCategory] = React.useState<string | null>(null);
+  const [selectedPriceRange, setSelectedPriceRange] = React.useState<{ label: string; min: number; max: number } | null>(null);
+  const [selectedRating, setSelectedRating] = React.useState<number | null>(null);
+  const [selectedBrand, setSelectedBrand] = React.useState<string | null>(null);
   const [showFilters, setShowFilters] = React.useState(true);
+  const [searchQuery, setSearchQuery] = React.useState('');
 
   React.useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 10);
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  // Get all products from store
+  const allProducts = useProducts();
 
   const categories = ['Electronics', 'Fashion', 'Home & Living', 'Sports', 'Books', 'Beauty', 'Toys', 'Grocery'];
   const priceRanges = [
@@ -28,33 +31,91 @@ export default function ProductsPage() {
     { label: '₹5000 - ₹10000', min: 5000, max: 10000 },
     { label: 'Above ₹10000', min: 10000, max: Infinity },
   ];
-  const brands = ['Brand A', 'Brand B', 'Brand C', 'Brand D', 'Brand E', 'Brand F'];
-  const ratings = ['4★ & above', '3★ & above', '2★ & above', '1★ & above'];
-  const productImages = ['/product-1.jpg', '/product-2.jpg', '/product-3.jpg', '/product-4.jpg', '/product-5.jpg'];
+  const brands = [...new Set(allProducts.map((p) => p.brand))].sort();
+  const ratingOptions = [
+    { label: '4★ & above', value: 4 },
+    { label: '3★ & above', value: 3 },
+    { label: '2★ & above', value: 2 },
+    { label: '1★ & above', value: 1 },
+  ];
 
-  const products = Array.from({ length: 48 }).map((_, i) => ({
-    id: i + 1,
-    name: `Product ${i + 1}`,
-    price: Math.floor(Math.random() * 50000) + 1000,
-    originalPrice: Math.floor(Math.random() * 80000) + 5000,
-    discount: Math.floor(Math.random() * 70) + 10,
-    rating: (Math.random() * 2 + 3.5).toFixed(1),
-    reviews: Math.floor(Math.random() * 10000) + 100,
-    brand: brands[Math.floor(Math.random() * brands.length)],
-    category: categories[Math.floor(Math.random() * categories.length)],
-    image: productImages[i % productImages.length],
-  }));
+  // Apply filters
+  let products = allProducts.filter((product) => {
+    // Search filter
+    if (
+      searchQuery &&
+      !product.name.toLowerCase().includes(searchQuery.toLowerCase()) &&
+      !product.brand.toLowerCase().includes(searchQuery.toLowerCase())
+    ) {
+      return false;
+    }
 
-  const handleFilterChange = (filterType, value) => {
-    setSelectedFilters(prev => ({
-      ...prev,
-      [filterType]: prev[filterType] === value ? null : value,
-    }));
+    // Category filter
+    if (selectedCategory && product.category.toLowerCase() !== selectedCategory.toLowerCase()) {
+      return false;
+    }
+
+    // Price range filter
+    if (selectedPriceRange) {
+      if (product.price < selectedPriceRange.min || product.price > selectedPriceRange.max) {
+        return false;
+      }
+    }
+
+    // Rating filter
+    if (selectedRating && product.rating < selectedRating) {
+      return false;
+    }
+
+    // Brand filter
+    if (selectedBrand && product.brand.toLowerCase() !== selectedBrand.toLowerCase()) {
+      return false;
+    }
+
+    return true;
+  });
+
+  // Sort products
+  if (sortBy === 'price-low') {
+    products = [...products].sort((a, b) => a.price - b.price);
+  } else if (sortBy === 'price-high') {
+    products = [...products].sort((a, b) => b.price - a.price);
+  } else if (sortBy === 'rating') {
+    products = [...products].sort((a, b) => b.rating - a.rating);
+  } else if (sortBy === 'newest') {
+    products = [...products].sort(
+      (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+    );
+  }
+
+  const handleCategoryFilter = (category: string) => {
+    setSelectedCategory(selectedCategory === category ? null : category);
+  };
+
+  const handlePriceFilter = (range: { label: string; min: number; max: number }) => {
+    setSelectedPriceRange(
+      selectedPriceRange?.label === range.label ? null : range
+    );
+  };
+
+  const handleBrandFilter = (brand: string) => {
+    setSelectedBrand(selectedBrand === brand ? null : brand);
+  };
+
+  const handleRatingFilter = (rating: number) => {
+    setSelectedRating(selectedRating === rating ? null : rating);
   };
 
   const clearFilters = () => {
-    setSelectedFilters({ category: null, priceRange: null, rating: null, brand: null });
+    setSelectedCategory(null);
+    setSelectedPriceRange(null);
+    setSelectedRating(null);
+    setSelectedBrand(null);
+    setSearchQuery('');
   };
+
+  const hasActiveFilters =
+    selectedCategory || selectedPriceRange || selectedRating || selectedBrand || searchQuery;
 
   return (
     <div className="bg-white">
@@ -125,7 +186,7 @@ export default function ProductsPage() {
                 <SlidersHorizontal className="w-4 h-4" />
                 <span className="text-sm font-medium">Filters</span>
               </button>
-              {Object.values(selectedFilters).some(v => v) && (
+              {hasActiveFilters && (
                 <button
                   onClick={clearFilters}
                   className="text-sm text-blue-600 hover:underline font-medium"
@@ -164,8 +225,8 @@ export default function ProductsPage() {
                         <label key={cat} className="flex items-center gap-2 cursor-pointer hover:text-blue-600">
                           <input
                             type="checkbox"
-                            checked={selectedFilters.category === cat}
-                            onChange={() => handleFilterChange('category', cat)}
+                            checked={selectedCategory === cat}
+                            onChange={() => handleCategoryFilter(cat)}
                             className="w-4 h-4 accent-blue-600"
                           />
                           <span className="text-sm text-gray-700">{cat}</span>
@@ -182,8 +243,8 @@ export default function ProductsPage() {
                         <label key={range.label} className="flex items-center gap-2 cursor-pointer hover:text-blue-600">
                           <input
                             type="checkbox"
-                            checked={selectedFilters.priceRange === range.label}
-                            onChange={() => handleFilterChange('priceRange', range.label)}
+                            checked={selectedPriceRange?.label === range.label}
+                            onChange={() => handlePriceFilter(range)}
                             className="w-4 h-4 accent-blue-600"
                           />
                           <span className="text-sm text-gray-700">{range.label}</span>
@@ -200,8 +261,8 @@ export default function ProductsPage() {
                         <label key={brand} className="flex items-center gap-2 cursor-pointer hover:text-blue-600">
                           <input
                             type="checkbox"
-                            checked={selectedFilters.brand === brand}
-                            onChange={() => handleFilterChange('brand', brand)}
+                            checked={selectedBrand === brand}
+                            onChange={() => handleBrandFilter(brand)}
                             className="w-4 h-4 accent-blue-600"
                           />
                           <span className="text-sm text-gray-700">{brand}</span>
@@ -214,15 +275,15 @@ export default function ProductsPage() {
                   <div className="border-t pt-4">
                     <h3 className="font-bold text-sm mb-3" style={{ color: '#212121' }}>Rating</h3>
                     <div className="space-y-2">
-                      {ratings.map((rating) => (
-                        <label key={rating} className="flex items-center gap-2 cursor-pointer hover:text-blue-600">
+                      {ratingOptions.map((option) => (
+                        <label key={option.label} className="flex items-center gap-2 cursor-pointer hover:text-blue-600">
                           <input
                             type="checkbox"
-                            checked={selectedFilters.rating === rating}
-                            onChange={() => handleFilterChange('rating', rating)}
+                            checked={selectedRating === option.value}
+                            onChange={() => handleRatingFilter(option.value)}
                             className="w-4 h-4 accent-blue-600"
                           />
-                          <span className="text-sm text-gray-700">{rating}</span>
+                          <span className="text-sm text-gray-700">{option.label}</span>
                         </label>
                       ))}
                     </div>

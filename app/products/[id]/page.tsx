@@ -1,57 +1,29 @@
 'use client';
 
-import { use, useEffect, useState } from 'react';
+import { use, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { Heart, ShoppingCart, Share2, Star, Truck, Shield, RotateCcw, ChevronRight } from 'lucide-react';
 import { useCartStore, useWishlistStore } from '@/lib/store';
-import { productsApi } from '@/lib/api-service';
-import { PRODUCTS } from '@/lib/constants';
+import { useProductById } from '@/hooks/useProducts';
+import { productService } from '@/services/productService';
 import type { Product } from '@/lib/types';
 
 export default function ProductDetail({ params, }: { params: Promise<{ id: string }>; }) {
   const { id } = use(params);
   const router = useRouter();
-  const [product, setProduct] = useState<Product | null>(null);
-  const [similarProducts, setSimilarProducts] = useState<Product[]>([]);
-  const [loading, setLoading] = useState(true);
+  
+  // Get product from global store
+  const product = useProductById(id);
+  // Get similar products
+  const similarProducts = product ? productService.getRelatedProducts(product.id, 5) : [];
+
   const [selectedImage, setSelectedImage] = useState(0);
   const [quantity, setQuantity] = useState(1);
   const [addedToCart, setAddedToCart] = useState(false);
 
   const { addToCart } = useCartStore();
   const { isInWishlist, addToWishlist, removeFromWishlist } = useWishlistStore();
-
-  useEffect(() => {
-    const fetchProduct = async () => {
-      setLoading(true);
-      try {
-        const result = await productsApi.getById(id);
-        if (result.success && result.data) {
-          setProduct(result.data);
-
-          const similarResult = await productsApi.getSimilar(id, 5);
-          if (similarResult.success) {
-            setSimilarProducts(similarResult.data || []);
-          }
-        }
-      } catch (error) {
-        console.error('[v0] Error fetching product:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchProduct();
-  }, [id]);
-
-  if (loading) {
-    return (
-      <div className="min-h-screen bg-gray-100 flex items-center justify-center">
-        <p className="text-gray-600">Loading product details...</p>
-      </div>
-    );
-  }
 
   if (!product) {
     return (

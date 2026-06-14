@@ -63,7 +63,6 @@ export function ProductImportComponent({ onImportSuccess }: ProductImportCompone
       });
 
       const data = await response.json();
-      console.log("data", data)
       setImportedData(data);
       setEditedProduct(data.product);
       setDialogOpen(true);

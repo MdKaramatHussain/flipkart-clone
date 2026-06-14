@@ -5,14 +5,18 @@ import Image from 'next/image';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { PRODUCTS, CATEGORIES } from '@/constants/data';
+import { CATEGORIES } from '@/constants/data';
 import { Trash2, Edit, Plus, Search } from 'lucide-react';
 import { ProductImportComponent } from '@/components/ProductImportComponent';
 import type { Product } from '@/lib/types';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { useProductActions, useProducts } from '@/hooks/useProducts';
 
 export default function AdminProductsPage() {
-  const [products, setProducts] = useState(PRODUCTS);
+  // Get products from global store
+  const products = useProducts();
+  const { addProduct, updateProduct, deleteProduct } = useProductActions();
+
   const [searchQuery, setSearchQuery] = useState('');
   const [showForm, setShowForm] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
@@ -31,7 +35,7 @@ export default function AdminProductsPage() {
     p.brand.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-  const handleEdit = (product: typeof PRODUCTS[0]) => {
+  const handleEdit = (product: Product) => {
     setEditingId(product.id);
     setFormData({
       name: product.name,
@@ -39,39 +43,34 @@ export default function AdminProductsPage() {
       originalPrice: product.originalPrice.toString(),
       brand: product.brand,
       stock: product.stock.toString(),
-      category: product.categoryId,
+      category: product.categoryId || '',
     });
     setShowForm(true);
   };
 
   const handleDelete = (id: string) => {
-    setProducts(products.filter((p) => p.id !== id));
+    deleteProduct(id);
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
     if (editingId) {
-      setProducts(
-        products.map((p) =>
-          p.id === editingId
-            ? {
-              ...p,
-              name: formData.name,
-              price: Number(formData.price),
-              originalPrice: Number(formData.originalPrice),
-              brand: formData.brand,
-              stock: Number(formData.stock),
-              categoryId: formData.category,
-            }
-            : p
-        )
-      );
+      // Update existing product
+      updateProduct(editingId, {
+        name: formData.name,
+        price: Number(formData.price),
+        originalPrice: Number(formData.originalPrice),
+        brand: formData.brand,
+        stock: Number(formData.stock),
+        categoryId: formData.category,
+      });
       setEditingId(null);
     } else {
       // Create new product
-      const newProduct = {
-        ...PRODUCTS[0], // Use first product as template for all required fields
+      const existingProduct = products[0];
+      const newProduct: Product = {
+        ...existingProduct,
         id: `PRD-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
         name: formData.name,
         price: Number(formData.price),
@@ -81,7 +80,7 @@ export default function AdminProductsPage() {
         categoryId: formData.category,
         createdAt: new Date(),
       };
-      setProducts([...products, newProduct]);
+      addProduct(newProduct);
     }
 
     setFormData({
@@ -96,21 +95,15 @@ export default function AdminProductsPage() {
   };
 
   const handleImportSuccess = (importedProduct: Partial<Product>) => {
-    // Add imported product to the list
-    // const newProduct: Product = {
-    //   ...PRODUCTS[0],
-    //   ...importedProduct,
-    //   image: Array.isArray(importedProduct.image)
-    //     ? importedProduct.image[0]
-    //     : importedProduct.image,
-    //   createdAt: new Date(),
-    // };
-    const newProduct = {
-      ...PRODUCTS[0], // Use template for required fields 
+    // Add imported product to the global store
+    const existingProduct = products[0];
+    const newProduct: Product = {
+      ...existingProduct,
       ...importedProduct,
+      id: importedProduct.id || `PRD-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
       createdAt: new Date(),
-    };
-    setProducts([...products, newProduct]);
+    } as Product;
+    addProduct(newProduct);
 
     // Switch to products tab to show the new product
     setActiveTab('products');

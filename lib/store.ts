@@ -1,7 +1,161 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import type { User, CartItem, Cart, Wishlist, WishlistItem, Order } from './types';
+import type { User, CartItem, Cart, Wishlist, WishlistItem, Order, Product } from './types';
 import { PRODUCTS } from './constants';
+
+// ==================== PRODUCT STORE ====================
+
+interface ProductStore {
+  products: Product[];
+  isLoading: boolean;
+  error: string | null;
+  
+  // Product Management
+  addProduct: (product: Product) => void;
+  updateProduct: (id: string, updates: Partial<Product>) => void;
+  deleteProduct: (id: string) => void;
+  setProducts: (products: Product[]) => void;
+  
+  // Product Queries
+  getProductById: (id: string) => Product | undefined;
+  getProductsByCategory: (category: string) => Product[];
+  getProductsByBrand: (brand: string) => Product[];
+  getFeaturedProducts: () => Product[];
+  getTrendingProducts: () => Product[];
+  getNewArrivals: () => Product[];
+  searchProducts: (query: string) => Product[];
+  filterProducts: (filters: {
+    category?: string;
+    priceRange?: { min: number; max: number };
+    rating?: number;
+    brand?: string;
+  }) => Product[];
+}
+
+export const useProductStore = create<ProductStore>()(
+  persist(
+    (set, get) => ({
+      products: PRODUCTS,
+      isLoading: false,
+      error: null,
+
+      addProduct: (product: Product) => {
+        set((state) => {
+          // Check if product already exists
+          if (state.products.some((p) => p.id === product.id)) {
+            return state;
+          }
+          return {
+            products: [product, ...state.products],
+          };
+        });
+      },
+
+      updateProduct: (id: string, updates: Partial<Product>) => {
+        set((state) => ({
+          products: state.products.map((product) =>
+            product.id === id ? { ...product, ...updates } : product
+          ),
+        }));
+      },
+
+      deleteProduct: (id: string) => {
+        set((state) => ({
+          products: state.products.filter((product) => product.id !== id),
+        }));
+      },
+
+      setProducts: (products: Product[]) => {
+        set({ products });
+      },
+
+      getProductById: (id: string) => {
+        return get().products.find((product) => product.id === id);
+      },
+
+      getProductsByCategory: (category: string) => {
+        return get().products.filter(
+          (product) =>
+            product.category.toLowerCase() === category.toLowerCase()
+        );
+      },
+
+      getProductsByBrand: (brand: string) => {
+        return get().products.filter(
+          (product) =>
+            product.brand.toLowerCase() === brand.toLowerCase()
+        );
+      },
+
+      getFeaturedProducts: () => {
+        return get()
+          .products.filter((product) => product.isFeatured)
+          .slice(0, 12);
+      },
+
+      getTrendingProducts: () => {
+        return get()
+          .products.filter((product) => product.isTrending)
+          .slice(0, 12);
+      },
+
+      getNewArrivals: () => {
+        return get()
+          .products.filter((product) => product.isNewArrival)
+          .slice(0, 12);
+      },
+
+      searchProducts: (query: string) => {
+        const lowerQuery = query.toLowerCase();
+        return get().products.filter(
+          (product) =>
+            product.name.toLowerCase().includes(lowerQuery) ||
+            product.description.toLowerCase().includes(lowerQuery) ||
+            product.brand.toLowerCase().includes(lowerQuery) ||
+            product.category.toLowerCase().includes(lowerQuery)
+        );
+      },
+
+      filterProducts: (filters) => {
+        let filtered = [...get().products];
+
+        if (filters.category) {
+          filtered = filtered.filter(
+            (product) =>
+              product.category.toLowerCase() === filters.category!.toLowerCase()
+          );
+        }
+
+        if (filters.priceRange) {
+          filtered = filtered.filter(
+            (product) =>
+              product.price >= filters.priceRange!.min &&
+              product.price <= filters.priceRange!.max
+          );
+        }
+
+        if (filters.rating) {
+          filtered = filtered.filter(
+            (product) => product.rating >= filters.rating!
+          );
+        }
+
+        if (filters.brand) {
+          filtered = filtered.filter(
+            (product) =>
+              product.brand.toLowerCase() === filters.brand!.toLowerCase()
+          );
+        }
+
+        return filtered;
+      },
+    }),
+    {
+      name: 'product-store',
+      version: 1,
+    }
+  )
+);
 
 // Cart Store
 interface CartStore {
