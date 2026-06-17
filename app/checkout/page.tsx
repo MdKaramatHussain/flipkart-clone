@@ -108,10 +108,10 @@ export default function CheckoutPage() {
                     <input type="radio" name="payment" className="w-4 h-4" />
                     <span>UPI</span>
                   </label>
-                  <label className="flex items-center gap-3 p-3 border border-gray-300 rounded cursor-pointer hover:bg-blue-50">
+                  {/* <label className="flex items-center gap-3 p-3 border border-gray-300 rounded cursor-pointer hover:bg-blue-50">
                     <input type="radio" name="payment" className="w-4 h-4" />
                     <span>Cash on Delivery</span>
-                  </label>
+                  </label> */}
                 </div>
                 <div className="flex gap-3 mt-6">
                   <button 

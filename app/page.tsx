@@ -25,27 +25,27 @@ export default function Home() {
   const heroBanners = [
     {
       id: '1',
-      image: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=1400&h=600&fit=crop',
-      title: 'Latest Smartphones',
+      image: 'https://www.paisawapas.com/shoptalk/wp-content/uploads/2025/09/Flipkart-Big-Billion-Days-Offers-On-iPhone-17.png',
+      title: 'Big Billion Days Sale',
       description: 'Get up to 50% off on premium smartphones',
-      alt: 'Smartphones Banner',
+      alt: 'Big Billion Days Banner',
       cta: { text: 'Shop Now', href: '/search?category=electronics' },
     },
     {
       id: '2',
-      image: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=1400&h=600&fit=crop',
-      title: 'Fashion Collection',
-      description: 'Trendy outfits for every season',
-      alt: 'Fashion Banner',
-      cta: { text: 'Explore', href: '/search?category=fashion' },
+      image: 'https://www.paisawapas.com/static/flipkart-sale-landing-page-mob-banner.png',
+      title: 'Sale is Live',
+      description: 'Get the latest iPhone models at unbeatable prices',
+      alt: 'sale is live',
+      cta: { text: 'sale', href: '/search?category=electronics' },
     },
     {
       id: '3',
-      image: 'https://images.unsplash.com/photo-1493857671505-72967e2e2760?w=1400&h=600&fit=crop',
-      title: 'Home & Furniture',
-      description: 'Transform your living space',
-      alt: 'Furniture Banner',
-      cta: { text: 'Browse', href: '/search?category=furniture' },
+      image: 'https://discover.zestmoney.in/wp-content/uploads/2020/11/Landing-page-banner-scaled.jpg',
+      title: 'Diwali Sale',
+      description: 'Diwali is here! Celebrate with amazing deals on electronics and more',
+      alt: 'Diwali Sale Banner',
+      cta: { text: 'Diwali Sale', href: '/search?category=electronics' },
     },
   ];
 
@@ -99,11 +99,11 @@ export default function Home() {
               <div className="flex items-center gap-2 mb-6">
                 <Zap className="w-6 h-6" style={{ color: COLORS.accent.yellow }} />
                 <h2 className="text-2xl font-bold" style={{ color: COLORS.text.primary }}>
-                  Best Deals of the Day
+                  Deals of the Day
                 </h2>
               </div>
               <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
-                {featuredProducts.slice(0, 5).map((product) => (
+                {featuredProducts.slice(0, 10).map((product) => (
                   <ProductCard key={product.id} product={product} variant="compact" />
                 ))}
               </div>
