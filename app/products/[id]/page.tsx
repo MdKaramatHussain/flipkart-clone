@@ -258,7 +258,7 @@ export default function ProductDetail({ params, }: { params: Promise<{ id: strin
                 <Link key={prod.id} href={`/products/${prod.id}`}>
                   <div className="bg-white border border-gray-200 rounded p-4 hover:shadow-lg transition cursor-pointer">
                     <div className="aspect-square bg-gray-100 rounded overflow-hidden mb-3">
-                      <img src={prod.image[0]} alt={prod.name} className="w-full h-full object-cover hover:scale-105 transition" />
+                      <img src={prod.image} alt={prod.name} className="w-full h-full object-cover hover:scale-105 transition" />
                     </div>
                     <h3 className="font-medium text-gray-900 line-clamp-2 text-sm mb-2">{prod.name}</h3>
                     <div className="flex gap-2 items-baseline">
