@@ -74,7 +74,7 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Top Categories Section */}
+        {/* Top Categories Section 
         <section className="bg-white border-b border-gray-200 py-6">
           <div className="max-w-full px-4 sm:px-6 lg:px-8">
             <div className="grid grid-cols-4 sm:grid-cols-4 md:grid-cols-8 gap-4">
@@ -91,6 +91,7 @@ export default function Home() {
             </div>
           </div>
         </section>
+        */}
 
         {/* Best Deals Section */}
         {featuredProducts.length > 0 && (
@@ -112,7 +113,7 @@ export default function Home() {
         )}
 
         {/* Promotional Banners */}
-        <section className="bg-white border-b border-gray-200 py-8">
+        {/* <section className="bg-white border-b border-gray-200 py-8">
           <div className="max-w-full px-4 sm:px-6 lg:px-8">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <PromoBanner
@@ -127,7 +128,7 @@ export default function Home() {
               />
             </div>
           </div>
-        </section>
+        </section> */}
 
         {/* Featured Products Slider */}
         {featuredProducts.length > 0 && (
