@@ -8,12 +8,10 @@ import { HeroBannerCarousel, PromoBanner } from '@/components/HeroBannerCarousel
 import { ProductSlider } from '@/components/ProductSlider';
 import { ProductCard } from '@/components/ProductCard';
 import { COLORS } from '@/constants/colors';
-import type { Product } from '@/lib/types';
 import { Zap, Package, Shield, Truck } from 'lucide-react';
 import {
   useFeaturedProducts,
   useTrendingProducts,
-  useProductsByCategory,
 } from '@/hooks/useProducts';
 
 export default function Home() {

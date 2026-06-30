@@ -1,12 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server';
-import nodemailer from 'nodemailer';
+import { sendEmail } from '@/lib/email/sendEmail';
 
 export async function POST(request: NextRequest) {
   try {
     const { name, email, password, phone } = await request.json();
 
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 1000));
+    await new Promise((resolve) => setTimeout(resolve, 1000));
 
     if (!name || !email || !password) {
       return NextResponse.json(
@@ -29,47 +28,30 @@ export async function POST(request: NextRequest) {
       phone: phone || '',
       addresses: [],
     };
-    let transport = nodemailer.createTransport({
-      service: "gmail",
-      auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.PASS
-      }
-    })
-    const message = "Hi " + name + " ! \nWelcome to our team\n Regards \n Team flipkart"
-    let option = {
-      from: process.env.EMAIL_USER,
-      to: email,
-      subject: "Signup in Flipkart App",
-      text: message
+
+    const message = `Hi ${name}!\nWelcome to our team\nRegards\nTeam flipkart`;
+
+    try {
+      await sendEmail({
+        to: email,
+        subject: 'Signup in Flipkart App',
+        text: message,
+      });
+
+      return NextResponse.json({
+        success: true,
+        data: newUser,
+        message: 'Account created successfully',
+      });
+    } catch {
+      return NextResponse.json({
+        success: false,
+        data: newUser,
+        message: 'Account created but welcome email could not be sent',
+      });
     }
-    transport.sendMail(option, function (err, info) {
-      if (err) {
-        return NextResponse.json({
-          success: false,
-          data: newUser,
-          message: 'Account created was unsuccessfully',
-        });
-      }
-      else {
-        return NextResponse.json({
-          success: true,
-          data: newUser,
-          message: 'Account created successfully',
-        });
-      }
-    })
-    // mail()
-    return NextResponse.json({
-      success: true,
-      data: newUser,
-      message: 'Account created successfully',
-    });
   } catch (error) {
     console.error('Signup error:', error);
-    return NextResponse.json(
-      { success: false, error: 'Signup failed' },
-      { status: 500 }
-    );
+    return NextResponse.json({ success: false, error: 'Signup failed' }, { status: 500 });
   }
 }
