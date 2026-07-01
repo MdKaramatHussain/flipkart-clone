@@ -18,7 +18,7 @@ export function CheckoutOrderSummary({
   onContinue,
   onBack,
 }: CheckoutOrderSummaryProps) {
-  const { cart, applyCoupon, removeCoupon } = useCartStore();
+  const { applyCoupon } = useCartStore();
   const pricing = useCartPricing();
   const [couponInput, setCouponInput] = React.useState('');
 
@@ -68,10 +68,10 @@ export function CheckoutOrderSummary({
               : `₹${pricing.shippingCharges.toLocaleString('en-IN')}`}
           </span>
         </div>
-        <div className="flex justify-between text-sm">
+        {/* <div className="flex justify-between text-sm">
           <span className="text-gray-600">Tax</span>
           <span>₹{pricing.tax.toLocaleString('en-IN')}</span>
-        </div>
+        </div> */}
       </div>
 
       <div
@@ -82,6 +82,8 @@ export function CheckoutOrderSummary({
         <span>₹{pricing.finalPayableAmount.toLocaleString('en-IN')}</span>
       </div>
 
+      {/* 
+      {/* Coupon
       {step < 4 && (
         <div className="border-t pt-4 mb-4" style={{ borderColor: COLORS.border.light }}>
           {cart.couponCode ? (
@@ -114,7 +116,8 @@ export function CheckoutOrderSummary({
             </form>
           )}
         </div>
-      )}
+      )} 
+        */}
 
       <div className="space-y-3 mb-6 pt-4 border-t" style={{ borderColor: COLORS.border.light }}>
         <div className="flex items-center gap-2 text-sm">

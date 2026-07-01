@@ -7,7 +7,6 @@ import { Heart, ShoppingCart, Share2, Star, Truck, Shield, RotateCcw, ChevronRig
 import { useCartStore, useWishlistStore } from '@/lib/store';
 import { useProductById } from '@/hooks/useProducts';
 import { productService } from '@/services/productService';
-import type { Product } from '@/lib/types';
 
 export default function ProductDetail({ params, }: { params: Promise<{ id: string }>; }) {
   const { id } = use(params);
@@ -22,7 +21,7 @@ export default function ProductDetail({ params, }: { params: Promise<{ id: strin
   const [quantity, setQuantity] = useState(1);
   const [addedToCart, setAddedToCart] = useState(false);
 
-  const { addToCart } = useCartStore();
+  const { addToCart, addToCartBuyNow } = useCartStore();
   const { isInWishlist, addToWishlist, removeFromWishlist } = useWishlistStore();
 
   if (!product) {

@@ -25,7 +25,7 @@ export function calculateOrderPricing(
       ? 0
       : CHECKOUT_CONFIG.SHIPPING_FEE;
   const tax = Math.round(taxableAmount * CHECKOUT_CONFIG.TAX_RATE);
-  const finalPayableAmount = taxableAmount + shippingCharges + tax;
+  const finalPayableAmount = taxableAmount;
 
   return {
     totalMrp,

@@ -161,6 +161,7 @@ export const useProductStore = create<ProductStore>()(
 interface CartStore {
   cart: Cart;
   addToCart: (productId: string, quantity: number) => void;
+  addToCartBuyNow: (productId: string, quantity: number) => void;
   removeFromCart: (productId: string) => void;
   updateQuantity: (productId: string, quantity: number) => void;
   clearCart: () => void;
@@ -170,8 +171,8 @@ interface CartStore {
 
 const calculateCartTotals = (items: CartItem[]): Omit<Cart, 'items' | 'couponCode' | 'couponDiscount'> => {
   const subtotal = items.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-  const tax = Math.round(subtotal * 0.05);
-  const shipping = subtotal > 500 ? 0 : 50;
+  const tax = 0 // Math.round(subtotal * 0.05);
+  const shipping = 0 // subtotal > 500 ? 0 : 50;
   
   return {
     subtotal,
@@ -187,6 +188,8 @@ export const useCartStore = create<CartStore>()(
     (set) => ({
       cart: {
         items: [],
+        selectBuyNow: false,
+        buyNowItem: null,
         subtotal: 0,
         discount: 0,
         tax: 0,
@@ -194,6 +197,15 @@ export const useCartStore = create<CartStore>()(
         total: 0,
         couponDiscount: 0,
       },
+      addToCartBuyNow: (productId: string, quantity: number) =>
+        set((state) => {
+          const product = PRODUCTS.find(p => p.id === productId);
+          const id= `${productId}-${Date.now()}`
+          if (!product) return state;
+          return {
+            cart: { ...state.cart, selectBuyNow: true, buyNowItem: { id, productId, quantity, price: product.price, addedAt: new Date() } },
+          };
+        }),
       addToCart: (productId: string, quantity: number) =>
         set((state) => {
           const product = PRODUCTS.find(p => p.id === productId);
