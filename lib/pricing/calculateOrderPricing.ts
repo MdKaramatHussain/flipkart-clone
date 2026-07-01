@@ -9,12 +9,12 @@ export function calculateOrderPricing(
 ): OrderPricing {
   let totalMrp = 0;
   let totalSellingPrice = 0;
-
-  for (const item of cart.items) {
-    const product = getProduct(item.productId);
-    const mrp = product?.originalPrice ?? item.price;
-    totalMrp += mrp * item.quantity;
-    totalSellingPrice += item.price * item.quantity;
+  const items = cart.selectBuyNow ? [cart.buyNowItem] : cart.items;
+  for (const item of items) {
+    const product = getProduct(item?.productId ?? '');
+    const mrp = product?.originalPrice ?? item?.price ?? 0;
+    totalMrp += mrp * (item?.quantity ?? 0);
+    totalSellingPrice += (item?.price ?? 0) * (item?.quantity ?? 0);
   }
 
   const productDiscount = Math.max(0, totalMrp - totalSellingPrice);

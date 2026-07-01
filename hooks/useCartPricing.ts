@@ -7,6 +7,7 @@ import type { OrderPricing } from '@/types/checkout';
 
 export function useCartPricing(): OrderPricing {
   const cart = useCartStore((state) => state.cart);
+  console.log('cart', cart);
   const getProductById = useProductStore((state) => state.getProductById);
 
   return useMemo(

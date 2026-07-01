@@ -43,8 +43,8 @@ export default function CheckoutPage() {
   const pricing = useCartPricing();
   const { errors, validateStep, clearFieldError } = useCheckoutValidation();
 
-  const items = cart.items;
-
+  const items = cart.selectBuyNow ? [cart.buyNowItem] : cart.items;
+console.log('items', items);
   useEffect(() => {
     if (items.length > 0 && currentStep === 4) {
       resetCheckout();

@@ -91,6 +91,8 @@ export interface CartItem {
 }
 
 export interface Cart {
+  selectBuyNow: boolean;
+  buyNowItem: CartItem | null;
   items: CartItem[];
   subtotal: number;
   discount: number;

@@ -169,7 +169,7 @@ interface CartStore {
   removeCoupon: () => void;
 }
 
-const calculateCartTotals = (items: CartItem[]): Omit<Cart, 'items' | 'couponCode' | 'couponDiscount'> => {
+const calculateCartTotals = (items: CartItem[]): Omit<Cart, 'items' | 'couponCode' | 'couponDiscount' | 'selectBuyNow' | 'buyNowItem'> => {
   const subtotal = items.reduce((sum, item) => sum + (item.price * item.quantity), 0);
   const tax = 0 // Math.round(subtotal * 0.05);
   const shipping = 0 // subtotal > 500 ? 0 : 50;
@@ -266,6 +266,8 @@ export const useCartStore = create<CartStore>()(
         set({
           cart: {
             items: [],
+            selectBuyNow: false,
+            buyNowItem: null,
             subtotal: 0,
             discount: 0,
             tax: 0,

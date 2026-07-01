@@ -48,7 +48,7 @@ export default function ProductDetail({ params, }: { params: Promise<{ id: strin
   };
 
   const handleBuyNow = () => {
-    addToCart(product.id, quantity);
+    addToCartBuyNow(product.id, quantity);
     router.push('/checkout');
   };
 
