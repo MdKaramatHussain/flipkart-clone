@@ -1,10 +1,6 @@
 import type { CheckoutCustomer, CheckoutOrder, CheckoutShipping } from '@/types/checkout';
 
-export function buildOrderConfirmationText(
-  customer: CheckoutCustomer,
-  shipping: CheckoutShipping,
-  order: CheckoutOrder
-): string {
+export function buildOrderConfirmationText(customer: CheckoutCustomer, shipping: CheckoutShipping, order: CheckoutOrder): string {
   const { pricing } = order;
   const itemsList = order.items
     .map(

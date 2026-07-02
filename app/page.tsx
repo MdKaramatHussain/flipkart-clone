@@ -5,6 +5,7 @@ import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
 import CategoryNavigation from '@/components/CategoryNavigation';
 import { HeroBannerCarousel, PromoBanner } from '@/components/HeroBannerCarousel';
+import { SaleIsLive } from '@/components/home/SaleIsLive';
 import { ProductSlider } from '@/components/ProductSlider';
 import { ProductCard } from '@/components/ProductCard';
 import { COLORS } from '@/constants/colors';
@@ -71,6 +72,8 @@ export default function Home() {
             <HeroBannerCarousel slides={heroBanners} autoplay autoplayInterval={5000} />
           </div>
         </section>
+
+        <SaleIsLive />
 
         {/* Top Categories Section 
         <section className="bg-white border-b border-gray-200 py-6">
