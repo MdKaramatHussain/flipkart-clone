@@ -4,7 +4,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { Search, ShoppingCart, Heart, User, Menu, X, ChevronDown } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import { COLORS } from '@/constants/colors';
+import { COLORS, withOpacity } from '@/constants/colors';
 import { useAuthStore, useCartStore } from '@/store/useStore';
 import Image from 'next/image';
 
@@ -101,21 +101,34 @@ export function Header() {
 
   const cartCount = cart?.items?.length || 0;
 
+  const navLinkClass =
+    'text-sm font-medium transition-all duration-200 hover:opacity-80 hover:underline underline-offset-4 decoration-white/60';
+  const iconButtonClass =
+    'relative p-2 rounded-lg transition-all duration-200 hover:bg-white/10';
+  const searchInputClass =
+    'w-full px-4 py-2 pr-10 border rounded-lg bg-white text-gray-900 placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-0';
+  const searchButtonClass =
+    'absolute right-3 top-1/2 -translate-y-1/2 transition-colors duration-200 text-gray-400 hover:text-primary';
+
   return (
-    <header className="sticky top-0 z-50 w-full bg-white shadow-md">
+    <header
+      className="sticky top-0 z-50 w-full shadow-md"
+      style={{ backgroundColor: COLORS.primary.main, color: COLORS.text.inverse }}
+    >
       {/* Main Header */}
-      <div className="border-b" style={{ borderColor: COLORS.border.light }}>
+      <div className="border-b" style={{ borderColor: withOpacity(COLORS.text.inverse, 0.15) }}>
         <div className="max-w-full px-4 sm:px-6 lg:px-8 py-3">
           <div className="flex items-center justify-between gap-2 sm:gap-4">
             {/* Logo */}
-            <Link href="/" className="flex-shrink-0">
-              <div className="flex items-center gap-1">
+            <Link href="/" className="flex-shrink-0 outline-none">
+              <div className="flex items-center gap-1 border-1">
                 <Image
-                  src="/logo.png"
+                  src="/logo.jfif"
                   alt="Logo"
                   width={1800}
                   height={60}
-                  className="object-contain h-12 w-auto"
+                  className="object-contain h-12 w-auto border-1"
+                  // className="object-contain h-12 w-auto brightness-0 invert"
                   priority
                 />
               </div>
@@ -131,12 +144,13 @@ export function Header() {
                     value={searchQuery}
                     onChange={(e) => handleSearchChange(e.target.value)}
                     onFocus={() => searchQuery && setShowSuggestions(true)}
-                    className="w-full px-4 py-2 pr-10 border rounded-lg focus:outline-none focus:ring-2 focus:ring-offset-0"
-                    style={{ borderColor: COLORS.border.default, '--tw-ring-color': COLORS.primary.light } as React.CSSProperties}
+                    className={searchInputClass}
+                    style={{ borderColor: COLORS.border.default, '--tw-ring-color': COLORS.primary.main } as React.CSSProperties}
                   />
                   <button
                     type="submit"
-                    className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                    className={searchButtonClass}
+                    aria-label="Search"
                   >
                     <Search className="w-5 h-5" />
                   </button>
@@ -174,8 +188,8 @@ export function Header() {
               {/* Seller link - Hidden on mobile */}
               <Link
                 href="/sellers"
-                className="hidden sm:inline-block text-sm font-medium transition-colors hover:text-blue-600"
-                style={{ color: COLORS.text.secondary }}
+                className={`hidden sm:inline-block ${navLinkClass}`}
+                style={{ color: COLORS.text.inverse }}
               >
                 Become a Seller
               </Link>
@@ -183,20 +197,21 @@ export function Header() {
               {/* Wishlist */}
               <Link
                 href="/wishlist"
-                className="relative p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                className={iconButtonClass}
               >
-                <Heart className="w-6 h-6" style={{ color: COLORS.text.primary }} />
+                <Heart className="w-6 h-6" style={{ color: COLORS.text.inverse }} />
               </Link>
 
               {/* Cart */}
               <Link
                 href="/cart"
-                className="relative p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                className={iconButtonClass}
               >
-                <ShoppingCart className="w-6 h-6" style={{ color: COLORS.text.primary }} />
+                <ShoppingCart className="w-6 h-6" style={{ color: COLORS.text.inverse }} />
                 {cartCount > 0 && (
                   <span
-                    className="absolute -top-1 -right-1 bg-red-500 text-white text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center"
+                    className="absolute -top-1 -right-1 text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center"
+                    style={{ backgroundColor: COLORS.accent.yellow, color: COLORS.text.primary }}
                   >
                     {cartCount}
                   </span>
@@ -207,10 +222,10 @@ export function Header() {
               <div className="relative hidden sm:block">
                 <button
                   onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                  className="flex items-center gap-1 p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                  className={`flex items-center gap-1 ${iconButtonClass}`}
                 >
-                  <User className="w-6 h-6" style={{ color: COLORS.text.primary }} />
-                  <ChevronDown className="w-4 h-4" style={{ color: COLORS.text.secondary }} />
+                  <User className="w-6 h-6" style={{ color: COLORS.text.inverse }} />
+                  <ChevronDown className="w-4 h-4" style={{ color: COLORS.text.inverse }} />
                 </button>
 
                 {isDropdownOpen && (
@@ -276,12 +291,13 @@ export function Header() {
               {/* Mobile Menu Button */}
               <button
                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                className="sm:hidden p-2 hover:bg-gray-100 rounded-lg"
+                className={`sm:hidden ${iconButtonClass}`}
+                aria-label={isMobileMenuOpen ? 'Close menu' : 'Open menu'}
               >
                 {isMobileMenuOpen ? (
-                  <X className="w-6 h-6" />
+                  <X className="w-6 h-6" style={{ color: COLORS.text.inverse }} />
                 ) : (
-                  <Menu className="w-6 h-6" />
+                  <Menu className="w-6 h-6" style={{ color: COLORS.text.inverse }} />
                 )}
               </button>
             </div>
@@ -297,12 +313,13 @@ export function Header() {
                   value={searchQuery}
                   onChange={(e) => handleSearchChange(e.target.value)}
                   onFocus={() => searchQuery && setShowSuggestions(true)}
-                  className="w-full px-4 py-2 pr-10 border rounded-lg focus:outline-none focus:ring-2 focus:ring-offset-0"
-                  style={{ borderColor: COLORS.border.default, '--tw-ring-color': COLORS.primary.light } as React.CSSProperties}
+                  className={searchInputClass}
+                  style={{ borderColor: COLORS.border.default, '--tw-ring-color': COLORS.primary.main } as React.CSSProperties}
                 />
                 <button
                   type="submit"
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                  className={searchButtonClass}
+                  aria-label="Search"
                 >
                   <Search className="w-5 h-5" />
                 </button>
@@ -333,32 +350,62 @@ export function Header() {
 
       {/* Mobile Menu */}
       {isMobileMenuOpen && (
-        <div className="sm:hidden bg-white border-t" style={{ borderColor: COLORS.border.default }}>
+        <div
+          className="sm:hidden border-t border-white/20"
+          style={{ backgroundColor: COLORS.primary.main }}
+        >
           <div className="px-4 py-4 space-y-4">
-            <Link href="/sellers" className="block text-sm font-medium">
+            <Link
+              href="/sellers"
+              className={`block ${navLinkClass}`}
+              style={{ color: COLORS.text.inverse }}
+            >
               Become a Seller
             </Link>
             {isLoggedIn ? (
               <>
-                <Link href="/profile" className="block text-sm">My Profile</Link>
-                <Link href="/orders" className="block text-sm">My Orders</Link>
+                <Link
+                  href="/profile"
+                  className={`block ${navLinkClass}`}
+                  style={{ color: COLORS.text.inverse }}
+                >
+                  My Profile
+                </Link>
+                <Link
+                  href="/orders"
+                  className={`block ${navLinkClass}`}
+                  style={{ color: COLORS.text.inverse }}
+                >
+                  My Orders
+                </Link>
                 <button
                   onClick={() => {
                     logout();
                     router.push('/');
                     setIsMobileMenuOpen(false);
                   }}
-                  className="w-full text-left text-sm text-red-600 font-medium"
+                  className="w-full text-left text-sm font-medium transition-opacity duration-200 hover:opacity-80"
+                  style={{ color: COLORS.accent.yellow }}
                 >
                   Logout
                 </button>
               </>
             ) : (
               <>
-                <Link href="/login" className="block text-sm font-medium" style={{ color: COLORS.primary.main }}>
+                <Link
+                  href="/login"
+                  className={`block ${navLinkClass}`}
+                  style={{ color: COLORS.text.inverse }}
+                >
                   Login
                 </Link>
-                <Link href="/signup" className="block text-sm font-medium">Sign Up</Link>
+                <Link
+                  href="/signup"
+                  className={`block ${navLinkClass}`}
+                  style={{ color: COLORS.text.inverse }}
+                >
+                  Sign Up
+                </Link>
               </>
             )}
           </div>

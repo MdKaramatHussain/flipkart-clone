@@ -1198,6 +1198,8 @@ export const PRODUCTS: Product[] = RAW_PRODUCTS.slice(0, 7).map((product, index)
 
   image: product.images[0],
 
+  discount: 99,
+
   thumbnail: product.images[0],
 
   createdAt: new Date(),
