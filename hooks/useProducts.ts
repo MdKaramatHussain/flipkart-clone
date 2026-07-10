@@ -7,7 +7,6 @@
 'use client';
 
 import { useProductStore } from '@/lib/store';
-import type { Product } from '@/lib/types';
 import React from 'react';
 
 /**
