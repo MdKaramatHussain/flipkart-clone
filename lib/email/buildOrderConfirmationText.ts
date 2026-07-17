@@ -22,6 +22,7 @@ Delivery Address:
 ${shipping.addressLine}
 ${shipping.city}, ${shipping.state} - ${shipping.postalCode}
 ${shipping.country}
+Mobile Number: ${customer.phone}
 
 Ordered Products:
 ${itemsList}
